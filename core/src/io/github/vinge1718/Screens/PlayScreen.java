@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
 import io.github.vinge1718.Sprites.Mario;
+import io.github.vinge1718.Tools.B2WorldCreator;
 
 import static sun.audio.AudioPlayer.player;
 
@@ -63,59 +64,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         player = new Mario(world);
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
+        new B2WorldCreator(world, map);
 
     }
 
