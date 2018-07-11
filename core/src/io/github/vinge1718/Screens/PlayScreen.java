@@ -22,7 +22,7 @@ public class PlayScreen implements Screen {
     private  MyProgrammingMario game;
     private OrthographicCamera gamecam;
     private Viewport gamePort;
-    Hud hud;
+    public Hud hud;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
