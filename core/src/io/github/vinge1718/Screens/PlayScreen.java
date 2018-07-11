@@ -36,6 +36,8 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
+
+// this is supposed to centre the game point of origin (x,y) to the centre of the viewport
         gamecam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
 
     }
@@ -44,11 +46,13 @@ public class PlayScreen implements Screen {
     public void show() {
 
     }
-
+// dummy data to test touch/click input response.
     public void handleInput(float dt){
         if(Gdx.input.isTouched())
             gamecam.position.x += 100 *dt;
     }
+
+// handles the displaying of the game graphics on change/response to game change
 
     public void update(float dt){
         handleInput(dt);
@@ -65,6 +69,7 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
         renderer.render();
     }
+
 
     @Override
     public void resize(int width, int height) {
