@@ -1,6 +1,7 @@
 package io.github.vinge1718.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -28,6 +29,9 @@ import java.util.logging.Level;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
+import io.github.vinge1718.Sprites.Mario;
+
+import static sun.audio.AudioPlayer.player;
 
 public class PlayScreen implements Screen {
     private  MyProgrammingMario game;
@@ -41,6 +45,7 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private Mario player;
 
     public PlayScreen (MyProgrammingMario game){
         this.game = game;
@@ -56,6 +61,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
+        player = new Mario(world);
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -117,10 +123,14 @@ public class PlayScreen implements Screen {
     public void show() {
 
     }
-// dummy data to test touch/click input response.
+
     public void handleInput(float dt){
-        if(Gdx.input.isTouched())
-            gamecam.position.x += 100 *dt;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
     }
 
 // handles the displaying of the game graphics on change/response to game change
@@ -128,8 +138,10 @@ public class PlayScreen implements Screen {
     public void update(float dt){
         handleInput(dt);
         world.step(1/60f, 6, 2);
+        gamecam.position.x = player.b2body.getPosition().x;
         gamecam.update();
         renderer.setView(gamecam);
+
     }
 
     @Override
