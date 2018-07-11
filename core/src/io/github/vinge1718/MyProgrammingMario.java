@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.vinge1718.Screens.PlayScreen;
 
 public class MyProgrammingMario extends Game {
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 208;
+
 	public SpriteBatch batch;
 	
 	@Override
