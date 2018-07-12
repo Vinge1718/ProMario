@@ -20,14 +20,14 @@ public class Hud implements Disposable{
 
     private Integer worldTimer;
     private float timeCount;
-    private Integer score;
+    private static Integer score;
 
-    Label countdownLabel;
-    Label scoreLabel;
-    Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
-    Label marioLabel;
+    private Label countdownLabel;
+    private static Label scoreLabel;
+    private Label timeLabel;
+    private Label levelLabel;
+    private Label worldLabel;
+    private Label marioLabel;
 
     public Hud(SpriteBatch sb){
         worldTimer = 300;
@@ -68,7 +68,7 @@ public class Hud implements Disposable{
         }
     }
 
-    public void addScore(int value){
+    public static void addScore(int value){
         score += value;
         scoreLabel.setText(String.format("%06d", score));
     }
