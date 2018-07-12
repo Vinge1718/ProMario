@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.vinge1718.MyProgrammingMario;
+import io.github.vinge1718.Scenes.Hud;
 
 public class Coin extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;
+    private final int BLANK_COIN = 28;
 
     public Coin(World world, TiledMap map, Rectangle bounds){
         super(world, map, bounds);
@@ -25,5 +27,7 @@ public class Coin extends InteractiveTileObject {
     @Override
     public void onHeadHit() {
         Gdx.app.log("Coin", "Collision");
+        getCell().setTile(tileSet.getTile(BLANK_COIN));
+        Hud.addScore(100);
     }
 }
