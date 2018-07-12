@@ -60,11 +60,15 @@ public class Hud implements Disposable{
     }
 
     public void update(float dt){
-        timeCount+=dt;
-        if(timeCount>= 1){
-            worldTimer--;
-            countdownLabel.setText(String.format("%03%", worldTimer));
-            timeCount=0;
+        timeCount += dt;
+        if(timeCount >= 1){
+            if (worldTimer > 0) {
+                worldTimer--;
+            } else {
+//                timeUp = true;
+            }
+            countdownLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
         }
     }
 
