@@ -102,13 +102,28 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        //separate our update logic from render
         update(delta);
-        Gdx.gl.glClearColor(0,0,0,1);
+
+        //Clear the game screen with Black
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //render our game map
+        renderer.render();
+
+        //renderer our Box2DDebugLines
+        b2dr.render(world, gamecam.combined);
+
+        game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        player.draw(game.batch);
+
+        game.batch.end();
+
+        //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        renderer.render();
-        b2dr.render(world, gamecam.combined);
     }
 
 
