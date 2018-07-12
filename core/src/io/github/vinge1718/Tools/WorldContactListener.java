@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import io.github.vinge1718.Sprites.InteractiveTileObject;
+
 
 public class WorldContactListener implements ContactListener {
 
@@ -18,6 +20,10 @@ public class WorldContactListener implements ContactListener {
         if(fixA.getUserData() == "head" || fixB.getUserData() == "head"){
             Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
             Fixture object = head == fixA ? fixB : fixA;
+
+            if(object.getUserData() instanceof InteractiveTileObject){
+                ((InteractiveTileObject) object.getUserData()).onHeadHit();
+            }
         }
     }
 
