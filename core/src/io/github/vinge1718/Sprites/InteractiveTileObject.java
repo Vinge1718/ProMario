@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.vinge1718.MyProgrammingMario;
 
-public class InteractiveTileObject {
+public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
@@ -38,4 +38,6 @@ public class InteractiveTileObject {
         fdef.shape = shape;
         fixture = body.createFixture(fdef);
     }
+
+    public abstract void onHeadHit();
 }
