@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Array;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Screens.PlayScreen;
-import sun.security.mscapi.KeyStore;
+
 
 public class Mario extends Sprite {
     public World world;
@@ -111,7 +111,7 @@ public class Mario extends Sprite {
         b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM));
+        head.set(new Vector2(-2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM), new Vector2(2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM));
     }
 }
 
