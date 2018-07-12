@@ -12,6 +12,6 @@ import io.github.vinge1718.MyProgrammingMario;
 public class Coin extends InteractiveTileObject {
     public Coin(World world, TiledMap map, Rectangle bounds){
         super(world, map, bounds);
-
+        fixture.setUserData(this);
     }
 }
