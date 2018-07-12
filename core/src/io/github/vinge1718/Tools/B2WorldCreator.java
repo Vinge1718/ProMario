@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.vinge1718.MyProgrammingMario;
+import io.github.vinge1718.Sprites.Brick;
 import io.github.vinge1718.Sprites.Coin;
 
 public class B2WorldCreator {
@@ -46,14 +47,7 @@ public class B2WorldCreator {
 
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth()/2)/MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+            new Brick(world, map, rect);
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
