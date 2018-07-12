@@ -59,6 +59,15 @@ public class Hud implements Disposable{
         stage.addActor(table);
     }
 
+    public void update(float dt){
+        timeCount+=dt;
+        if(timeCount>= 1){
+            worldTimer--;
+            countdownLabel.setText(String.format("%03%", worldTimer));
+            timeCount=0;
+        }
+    }
+
     @Override
     public void dispose() {
         stage.dispose();
