@@ -111,7 +111,11 @@ public class Mario extends Sprite {
         b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM), new Vector2(2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM));
+        head.set(new Vector2(-2/MyProgrammingMario.PPM, 6/MyProgrammingMario.PPM), new Vector2(2/MyProgrammingMario.PPM, 6/MyProgrammingMario.PPM));
+        fdef.shape = head;
+        fdef.isSensor = true;
+
+        b2body.createFixture(fdef).setUserData("head");
     }
 }
 
