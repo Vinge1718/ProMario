@@ -32,6 +32,7 @@ import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
 import io.github.vinge1718.Sprites.Mario;
 import io.github.vinge1718.Tools.B2WorldCreator;
+import io.github.vinge1718.Tools.WorldContactListener;
 
 import static sun.audio.AudioPlayer.player;
 
