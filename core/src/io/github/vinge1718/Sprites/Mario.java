@@ -3,15 +3,18 @@ package io.github.vinge1718.Sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Screens.PlayScreen;
+import sun.security.mscapi.KeyStore;
 
 public class Mario extends Sprite {
     public World world;
@@ -106,6 +109,9 @@ public class Mario extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2/MyProgrammingMario.PPM, 5/MyProgrammingMario.PPM));
     }
 }
 
