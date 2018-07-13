@@ -3,6 +3,7 @@ package io.github.vinge1718.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,6 +52,8 @@ public class PlayScreen implements Screen {
     private Mario player;
     private TextureAtlas atlas;
 
+    private Music music;
+
     public PlayScreen (MyProgrammingMario game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
@@ -66,10 +69,13 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
-        player = new Mario(world, this);
+        player = new Mario(this);
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreator(this);
         world.setContactListener(new WorldContactListener());
+//        music = MyProgrammingMario.manager.get("audio/music/mario_music.ogg", Music.class);
+//        music.setLooping(true);
+//        music.play();
     }
 
     public TextureAtlas getAtlas(){
@@ -137,6 +143,14 @@ public class PlayScreen implements Screen {
     public void resize(int width, int height) {
         gamePort.update(width, height);
 
+    }
+
+    public TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return world;
     }
 
     @Override
