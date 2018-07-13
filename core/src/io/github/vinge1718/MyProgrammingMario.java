@@ -3,6 +3,9 @@ package io.github.vinge1718;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +22,7 @@ public class MyProgrammingMario extends Game {
 	public static final short COIN_BIT =8;
 	public static final short DESTROYED_BIT = 16;
 	public static final short DEFAULT_BIT = 1;
+	public static AssetManager manager;
 
 	public SpriteBatch batch;
 	
@@ -26,15 +30,27 @@ public class MyProgrammingMario extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
+		manager = new AssetManager();
+//		manager.load("audio/music/mario_music.ogg", Music.class);
+//		manager.load("audio/sounds/coin.wav", Sound.class);
+//		manager.load("audio/sounds/bump.wav", Sound.class);
+//		manager.load("audio/sounds/breakblock.wav", Sound.class);
+//		setScreen(new PlayScreen(this));
+//		manager.finishLoading();
 	}
 
 	@Override
 	public void render () {
 		super.render();
+//manager.update(); to use this remove the `finishLoading()` function in create above then
+// move on to the `PlayScreenClass and uncomment the music call in the constructor and finally do
+// the same in both the brick class and coin class where music and sound effetcs are finally
+// called into action upon collision with mario in gameplay...
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
+//		manager.dispose();
 	}
 }
