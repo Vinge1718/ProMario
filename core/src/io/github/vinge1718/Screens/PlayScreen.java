@@ -124,7 +124,7 @@ public class PlayScreen implements Screen {
         //render our game map
         renderer.render();
 
-        //renderer our Box2DDebugLines
+
         b2dr.render(world, gamecam.combined);
 
         game.batch.setProjectionMatrix(gamecam.combined);
@@ -133,7 +133,6 @@ public class PlayScreen implements Screen {
 
         game.batch.end();
 
-        //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
     }
