@@ -8,10 +8,11 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
+import io.github.vinge1718.Screens.PlayScreen;
 
 public class Brick extends InteractiveTileObject{
-    public Brick(World world, TiledMap map, Rectangle bounds){
-        super(world, map, bounds);
+    public Brick(PlayScreen screen, Rectangle bounds){
+        super(screen, bounds);
         fixture.setUserData(this);
         setCategoryFilter(MyProgrammingMario.BRICK_BIT);
     }
@@ -22,5 +23,6 @@ public class Brick extends InteractiveTileObject{
         setCategoryFilter(MyProgrammingMario.DESTROYED_BIT);
         getCell().setTile(null);
         Hud.addScore(200);
+//        MyProgrammingMario.manager.get("audio/sounds/breakblock.wav");
     }
 }
