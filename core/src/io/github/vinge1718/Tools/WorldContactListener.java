@@ -34,8 +34,15 @@ public class WorldContactListener implements ContactListener {
             case MyProgrammingMario.ENEMY_HEAD_BIT | MyProgrammingMario.MARIO_BIT:
                 if(fixA.getFilterData().categoryBits == MyProgrammingMario.ENEMY_HEAD_BIT)
                     ((Enemy)fixA.getUserData()).hitOnHead();
-                else if(fixB.getFilterData().categoryBits == MyProgrammingMario.ENEMY_HEAD_BIT)
+                else
                     ((Enemy)fixB.getUserData()).hitOnHead();
+                break;
+            case MyProgrammingMario.ENEMY_BIT | MyProgrammingMario.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ENEMY_BIT)
+                    ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
         }
 
     }
