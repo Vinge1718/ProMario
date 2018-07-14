@@ -11,6 +11,8 @@ import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Sprites.Enemy;
 import io.github.vinge1718.Sprites.InteractiveTileObject;
 
+import static io.github.vinge1718.MyProgrammingMario.ENEMY_BIT;
+
 
 public class WorldContactListener implements ContactListener {
 
@@ -37,12 +39,14 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Enemy)fixB.getUserData()).hitOnHead();
                 break;
-            case MyProgrammingMario.ENEMY_BIT | MyProgrammingMario.OBJECT_BIT:
-                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ENEMY_BIT)
+            case ENEMY_BIT | MyProgrammingMario.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == ENEMY_BIT)
                     ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
                 else
                     ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
                 break;
+            case MyProgrammingMario.MARIO_BIT | MyProgrammingMario.ENEMY_BIT:
+                Gdx.app.log("Mario", "DIED");
         }
 
     }
