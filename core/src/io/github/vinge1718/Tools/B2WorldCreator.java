@@ -33,6 +33,7 @@ public class B2WorldCreator {
 
             shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
             fdef.shape = shape;
+            fdef.filter.categoryBits = MyProgrammingMario.OBJECT_BIT;
             body.createFixture(fdef);
         }
 
