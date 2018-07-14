@@ -31,6 +31,7 @@ import java.util.logging.Level;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
+import io.github.vinge1718.Sprites.Goomba;
 import io.github.vinge1718.Sprites.Mario;
 import io.github.vinge1718.Tools.B2WorldCreator;
 import io.github.vinge1718.Tools.WorldContactListener;
@@ -50,6 +51,8 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
     private Mario player;
+    private Goomba goomba;
+
     private TextureAtlas atlas;
 
     private Music music;
@@ -76,6 +79,8 @@ public class PlayScreen implements Screen {
 //        music = MyProgrammingMario.manager.get("audio/music/mario_music.ogg", Music.class);
 //        music.setLooping(true);
 //        music.play();
+
+        goomba = new Goomba(this, .32f, .32f);
     }
 
     public TextureAtlas getAtlas(){
@@ -104,6 +109,7 @@ public class PlayScreen implements Screen {
 //takes 1 step in the physics simulation (60 times per second);
         world.step(1/60f, 6, 2);
         player.update(dt);
+        goomba.update(dt);
 
         hud.update(dt);
         gamecam.position.x = player.b2body.getPosition().x;
@@ -129,7 +135,9 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
+//        goomba.draw(game.batch);
         player.draw(game.batch);
+
 
         game.batch.end();
 
