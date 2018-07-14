@@ -1,6 +1,5 @@
 package io.github.vinge1718.Sprites;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -109,8 +108,9 @@ public class Mario extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(6/ MyProgrammingMario.PPM);
         fdef.filter.categoryBits = MyProgrammingMario.MARIO_BIT;
-        fdef.filter.maskBits = MyProgrammingMario.DEFAULT_BIT | MyProgrammingMario.COIN_BIT |
-                MyProgrammingMario.BRICK_BIT;
+        fdef.filter.maskBits = MyProgrammingMario.GROUND_BIT | MyProgrammingMario.COIN_BIT |
+                MyProgrammingMario.BRICK_BIT | MyProgrammingMario.ENEMY_BIT | MyProgrammingMario
+                .OBJECT_BIT | MyProgrammingMario.ENEMY_HEAD_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
