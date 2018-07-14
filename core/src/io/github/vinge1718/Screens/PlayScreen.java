@@ -80,7 +80,7 @@ public class PlayScreen implements Screen {
 //        music.setLooping(true);
 //        music.play();
 
-        goomba = new Goomba(this, .32f, .32f);
+        goomba = new Goomba(this, 1f, .32f);
     }
 
     public TextureAtlas getAtlas(){
@@ -135,7 +135,7 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
-//        goomba.draw(game.batch);
+        goomba.draw(game.batch);
         player.draw(game.batch);
 
 
