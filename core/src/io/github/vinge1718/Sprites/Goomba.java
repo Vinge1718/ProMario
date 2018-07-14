@@ -67,7 +67,7 @@ public class Goomba extends Enemy {
                 MyProgrammingMario.MARIO_BIT;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertice = new Vector2[4];
