@@ -10,7 +10,7 @@ import io.github.vinge1718.Screens.PlayScreen;
 public abstract class Enemy extends Sprite {
     protected PlayScreen screen;
     protected World world;
-    protected Body b2body;
+    public Body b2body;
     public Vector2 velocity;
 
     public Enemy(PlayScreen screen, float x, float y){
@@ -19,6 +19,7 @@ public abstract class Enemy extends Sprite {
         setPosition(x,y);
         definedEnemy();
         velocity =new Vector2(1,0);
+        b2body.setActive(false);
     }
 
     protected abstract void definedEnemy();
