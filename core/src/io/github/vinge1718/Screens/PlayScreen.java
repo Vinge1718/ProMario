@@ -31,6 +31,7 @@ import java.util.logging.Level;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
+import io.github.vinge1718.Sprites.Enemy;
 import io.github.vinge1718.Sprites.Goomba;
 import io.github.vinge1718.Sprites.Mario;
 import io.github.vinge1718.Tools.B2WorldCreator;
@@ -50,8 +51,8 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
     private Mario player;
-    private Goomba goomba;
 
     private TextureAtlas atlas;
 
@@ -74,13 +75,12 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         player = new Mario(this);
 
-        new B2WorldCreator(this);
+        creator = new B2WorldCreator(this);
         world.setContactListener(new WorldContactListener());
 //        music = MyProgrammingMario.manager.get("audio/music/mario_music.ogg", Music.class);
 //        music.setLooping(true);
 //        music.play();
 
-        goomba = new Goomba(this, 5.64f, .16f);
     }
 
     public TextureAtlas getAtlas(){
@@ -109,7 +109,8 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f, 6, 2);
         player.update(dt);
-        goomba.update(dt);
+        for(Enemy enemy: creator.getGoombas())
+            enemy.update(dt);
 
         hud.update(dt);
         gamecam.position.x = player.b2body.getPosition().x;
@@ -135,9 +136,9 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
-        goomba.draw(game.batch);
         player.draw(game.batch);
-
+        for(Enemy enemy: creator.getGoombas())
+            enemy.draw(game.batch);
 
         game.batch.end();
 
