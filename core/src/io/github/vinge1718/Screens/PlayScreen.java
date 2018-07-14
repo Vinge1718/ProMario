@@ -106,7 +106,7 @@ public class PlayScreen implements Screen {
     public void update(float dt){
 // handle user input first
         handleInput(dt);
-//takes 1 step in the physics simulation (60 times per second);
+
         world.step(1/60f, 6, 2);
         player.update(dt);
         goomba.update(dt);
