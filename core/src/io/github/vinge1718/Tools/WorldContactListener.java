@@ -10,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Sprites.Enemy;
 import io.github.vinge1718.Sprites.InteractiveTileObject;
+import io.github.vinge1718.Sprites.Item;
+import io.github.vinge1718.Sprites.Mario;
 
 import static io.github.vinge1718.MyProgrammingMario.ENEMY_BIT;
 
@@ -39,17 +41,30 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Enemy)fixB.getUserData()).hitOnHead();
                 break;
-            case ENEMY_BIT | MyProgrammingMario.OBJECT_BIT:
-                if(fixA.getFilterData().categoryBits == ENEMY_BIT)
+            case MyProgrammingMario.ENEMY_BIT | MyProgrammingMario.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ENEMY_BIT)
                     ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
                 else
                     ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
                 break;
             case MyProgrammingMario.MARIO_BIT | MyProgrammingMario.ENEMY_BIT:
-                Gdx.app.log("Mario", "DIED");
+                Gdx.app.log("MARIO", "DIED");
+                break;
             case MyProgrammingMario.ENEMY_BIT | MyProgrammingMario.ENEMY_BIT:
                 ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
                 ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+            case MyProgrammingMario.ITEM_BIT | MyProgrammingMario.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ITEM_BIT)
+                    ((Item)fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((Item)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+            case MyProgrammingMario.ITEM_BIT | MyProgrammingMario.MARIO_BIT:
+                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ITEM_BIT)
+                    ((Item)fixA.getUserData()).use((Mario) fixB.getUserData());
+                else
+                    ((Item)fixB.getUserData()).use((Mario) fixA.getUserData());
                 break;
         }
 
