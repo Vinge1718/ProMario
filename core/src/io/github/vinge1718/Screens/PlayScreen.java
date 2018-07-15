@@ -22,18 +22,24 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.PriorityQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
 import io.github.vinge1718.Sprites.Enemy;
 import io.github.vinge1718.Sprites.Goomba;
+import io.github.vinge1718.Sprites.Item;
+import io.github.vinge1718.Sprites.ItemDef;
 import io.github.vinge1718.Sprites.Mario;
+import io.github.vinge1718.Sprites.Mushroom;
 import io.github.vinge1718.Tools.B2WorldCreator;
 import io.github.vinge1718.Tools.WorldContactListener;
 
@@ -58,6 +64,9 @@ public class PlayScreen implements Screen {
 
     private Music music;
 
+    private Array<Item> items;
+    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
+
     public PlayScreen (MyProgrammingMario game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
@@ -81,6 +90,22 @@ public class PlayScreen implements Screen {
 //        music.setLooping(true);
 //        music.play();
 
+        items = new Array<Item>();
+        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+
+    }
+
+    public void spawnItem(ItemDef idef){
+        itemsToSpawn.add(idef);
+    }
+
+    public void handleSpawningItems(){
+        if(!itemsToSpawn.isEmpty()){
+            ItemDef idef = itemsToSpawn.poll();
+            if(idef.type == Mushroom.class){
+                items.add(new Mushroom(this, idef.position.x, idef.position.y));
+            }
+        }
     }
 
     public TextureAtlas getAtlas(){
@@ -106,8 +131,9 @@ public class PlayScreen implements Screen {
     public void update(float dt){
 // handle user input first
         handleInput(dt);
+        handleSpawningItems();
 
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
         player.update(dt);
         for(Enemy enemy : creator.getGoombas()) {
             enemy.update(dt);
@@ -115,6 +141,10 @@ public class PlayScreen implements Screen {
                 enemy.b2body.setActive(true);
             }
         }
+
+        for(Item item : items)
+            item.update(dt);
+
         hud.update(dt);
         gamecam.position.x = player.b2body.getPosition().x;
         gamecam.update();
@@ -142,6 +172,9 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
         for(Enemy enemy: creator.getGoombas())
             enemy.draw(game.batch);
+
+        for (Item item: items)
+            item.draw(game.batch);
 
         game.batch.end();
 
