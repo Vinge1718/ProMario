@@ -24,8 +24,7 @@ public class Goomba extends Enemy {
         super(screen, x, y);
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 2; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("goomba"), i*16, -8, 16,
-                    16));
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("goomba"), i * 16, 0, 16, 16));
         walkAnimation = new Animation<TextureRegion>(0.4f, frames);
         stateTime = 0;
         setBounds(getX(), getY(), 16/MyProgrammingMario.PPM, 16/MyProgrammingMario.PPM);
@@ -38,18 +37,19 @@ public class Goomba extends Enemy {
         if(setToDestroy && !destroyed){
             world.destroyBody(b2body);
             destroyed = true;
-            setRegion(new TextureRegion(screen.getAtlas().findRegion("goomba"), 32, -8, 16,16));
+            setRegion(new TextureRegion(screen.getAtlas().findRegion("goomba"), 32, 0, 16,16));
             stateTime = 0;
         } else if(!destroyed){
             b2body.setLinearVelocity(velocity);
-            setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2);
+            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y -
+                    getHeight() / 2);
             setRegion(walkAnimation.getKeyFrame(stateTime, true));
         }
 
     }
 
     @Override
-    protected void definedEnemy() {
+    protected void defineEnemy() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(getX() , getY());
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -71,14 +71,14 @@ public class Goomba extends Enemy {
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertice = new Vector2[4];
-        vertice[0] = new Vector2(-3, 7).scl(1/MyProgrammingMario.PPM);
-        vertice[1] = new Vector2(3, 7).scl(1/MyProgrammingMario.PPM);
+        vertice[0] = new Vector2(-3, 8).scl(1/MyProgrammingMario.PPM);
+        vertice[1] = new Vector2(3, 8).scl(1/MyProgrammingMario.PPM);
         vertice[2] = new Vector2(-3, 3).scl(1/MyProgrammingMario.PPM);
         vertice[3] = new Vector2(3, 3).scl(1/MyProgrammingMario.PPM);
         head.set(vertice);
 
         fdef.shape = head;
-        fdef.restitution = 0.5f;
+        fdef.restitution = 1f;
         fdef.filter.categoryBits = MyProgrammingMario.ENEMY_HEAD_BIT;
         b2body.createFixture(fdef).setUserData(this);
 
