@@ -1,5 +1,7 @@
 package io.github.vinge1718.Sprites;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -22,11 +24,15 @@ public abstract class InteractiveTileObject {
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;
+    protected PlayScreen screen;
+    protected MapObject object;
 
-    public InteractiveTileObject(PlayScreen screen, Rectangle bounds){
+    public InteractiveTileObject(PlayScreen screen, MapObject object){
+        this.screen = screen;
         this.world = screen.getWorld();
         this.map = screen.getMap();
-        this.bounds = bounds;
+        this.bounds = ((RectangleMapObject) object).getRectangle();
+        this.object = object;
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
