@@ -111,7 +111,7 @@ public class PlayScreen implements Screen {
         player.update(dt);
         for(Enemy enemy : creator.getGoombas()) {
             enemy.update(dt);
-            if(enemy.getX() < player.getX() +1 ){ //+ 224 / MyProgrammingMario.PPM) {
+            if(enemy.getX() < player.getX() + 224 / MyProgrammingMario.PPM) {
                 enemy.b2body.setActive(true);
             }
         }
