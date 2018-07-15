@@ -25,6 +25,8 @@ public class MyProgrammingMario extends Game {
 	public static final short OBJECT_BIT =32;
 	public static final short ENEMY_BIT = 64;
     public static final short ENEMY_HEAD_BIT = 128;
+	public static final short ITEM_BIT = 256;
+
 
 	public static AssetManager manager;
 
@@ -35,18 +37,21 @@ public class MyProgrammingMario extends Game {
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
 		manager = new AssetManager();
-//		manager.load("audio/music/mario_music.ogg", Music.class);
-//		manager.load("audio/sounds/coin.wav", Sound.class);
-//		manager.load("audio/sounds/bump.wav", Sound.class);
-//		manager.load("audio/sounds/breakblock.wav", Sound.class);
-//		setScreen(new PlayScreen(this));
-//		manager.finishLoading();
+		manager.load("audio/music/mario_music.ogg", Music.class);
+		manager.load("audio/sounds/coin.wav", Sound.class);
+		manager.load("audio/sounds/bump.wav", Sound.class);
+		manager.load("audio/sounds/breakblock.wav", Sound.class);
+        manager.load("audio/sounds/powerup_spawn.wav", Sound.class);
+        manager.load("audio/sounds/powerup.wav", Sound.class);
+		setScreen(new PlayScreen(this));
+		manager.finishLoading();
 	}
 
 	@Override
 	public void render () {
 		super.render();
-//manager.update(); to use this remove the `finishLoading()` function in create above then
+		manager.update();
+// to use this remove the `finishLoading()` function in create above then
 // move on to the `PlayScreenClass and uncomment the music call in the constructor and finally do
 // the same in both the brick class and coin class where music and sound effetcs are finally
 // called into action upon collision with mario in gameplay...
@@ -54,7 +59,8 @@ public class MyProgrammingMario extends Game {
 	
 	@Override
 	public void dispose () {
+		super.dispose();
 		batch.dispose();
-//		manager.dispose();
+		manager.dispose();
 	}
 }
