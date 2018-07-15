@@ -1,5 +1,6 @@
 package io.github.vinge1718.Sprites;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,37 +19,66 @@ import io.github.vinge1718.Screens.PlayScreen;
 
 public class Mario extends Sprite {
     public World world;
-    public enum State{FALLING, JUMPING, STANDING, RUNNING};
+    public enum State{FALLING, JUMPING, STANDING, RUNNING, GROWING};
     public State currentState;
     public State previousState;
     public Body b2body;
     private TextureRegion marioStand;
     private Animation<TextureRegion> marioRun;
-    private Animation<TextureRegion> marioJump;
+    private TextureRegion marioJump;
     private float stateTimer;
     private boolean runningRight;
+    private TextureRegion bigMarioStand;
+    private TextureRegion bigMarioJump;
+    private Animation<TextureRegion> bigMarioRun;
+    private Animation<TextureRegion> growMario;
+    private boolean marioIsBig;
+    private boolean runGrowAnimation;
+    private boolean timeToDefineBigMario;
+    private boolean timeToRedefineMario;
+    private boolean marioIsDead;
+    private PlayScreen screen;
 
 
     public Mario(PlayScreen screen){
-        super(screen.getAtlas().findRegion("little_mario"));
+
         this.world = screen.getWorld();
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
-
+//run
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i =1; i<4; i++)
-            frames.add(new TextureRegion(getTexture(), i*16, 0, 16,16));
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"), i*16,0, 16,16));
         marioRun = new Animation<TextureRegion>(0.1f, frames);
+
         frames.clear();
 
-        for(int i = 4; i<6; i++)
-            frames.add(new TextureRegion(getTexture(), i*16, 0, 16,16));
-        marioJump = new Animation<TextureRegion>(0.1f, frames);
+        for(int i =1; i<4; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), i*16,0,16,32));
+        bigMarioRun = new Animation<TextureRegion>(0.1f, frames);
 
+        frames.clear();
+
+//grow
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
+        growMario = new Animation<TextureRegion>(0.2f, frames);
+
+//jump
+        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80,0,16,
+                16);
+        bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80,0,16,
+                32);
+
+//stand
+        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"),0,0,16,16);
+        bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0,0,16,
+                32);
         defineMario();
-        marioStand = new TextureRegion(getTexture(), 0, 0, 16, 16);
         setBounds(0,0,16/MyProgrammingMario.PPM, 16/MyProgrammingMario.PPM);
         setRegion(marioStand);
     }
@@ -63,16 +93,23 @@ public class Mario extends Sprite {
 
         TextureRegion region;
         switch (currentState){
+            case GROWING:
+                region = growMario.getKeyFrame(stateTimer);
+                if(growMario.isAnimationFinished(stateTimer)) {
+                    runGrowAnimation = false;
+                }
+                break;
             case JUMPING:
-                region = marioJump.getKeyFrame(stateTimer);
+                region = marioIsBig ? bigMarioJump : marioJump;
                 break;
             case RUNNING:
-                region = marioRun.getKeyFrame(stateTimer, true);
+                region = marioIsBig ? bigMarioRun.getKeyFrame(stateTimer, true) : marioRun
+                        .getKeyFrame(stateTimer, true);
                 break;
             case FALLING:
             case STANDING:
                 default:
-                    region = marioStand;
+                    region = marioIsBig ? bigMarioStand : marioStand;
                     break;
         }
         if((b2body.getLinearVelocity().x<0 || !runningRight) && !region.isFlipX()){
@@ -88,7 +125,10 @@ public class Mario extends Sprite {
     }
 
     public State getState(){
-        if(b2body.getLinearVelocity().y>0 || (b2body.getLinearVelocity().y <0 && previousState == State.JUMPING))
+        if(runGrowAnimation)
+            return State.GROWING;
+        else if(b2body.getLinearVelocity().y>0 || (b2body.getLinearVelocity().y <0 && previousState
+                == State.JUMPING))
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y<0)
             return State.FALLING;
@@ -96,6 +136,13 @@ public class Mario extends Sprite {
             return State.RUNNING;
         else
             return State.STANDING;
+    }
+
+    public void grow(){
+        runGrowAnimation = true;
+        marioIsBig = true;
+        setBounds(getX(), getY(), getWidth(), getHeight() * 2);
+        MyProgrammingMario.manager.get("audio/sounds/powerup.wav", Sound.class).play();
     }
 
     public void defineMario(){
@@ -108,9 +155,13 @@ public class Mario extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(6/ MyProgrammingMario.PPM);
         fdef.filter.categoryBits = MyProgrammingMario.MARIO_BIT;
-        fdef.filter.maskBits = MyProgrammingMario.GROUND_BIT | MyProgrammingMario.COIN_BIT |
-                MyProgrammingMario.BRICK_BIT | MyProgrammingMario.ENEMY_BIT | MyProgrammingMario
-                .OBJECT_BIT | MyProgrammingMario.ENEMY_HEAD_BIT;
+        fdef.filter.maskBits = MyProgrammingMario.GROUND_BIT |
+                MyProgrammingMario.COIN_BIT |
+                MyProgrammingMario.BRICK_BIT |
+                MyProgrammingMario.ENEMY_BIT |
+                MyProgrammingMario.OBJECT_BIT |
+                MyProgrammingMario.ENEMY_HEAD_BIT |
+                MyProgrammingMario.ITEM_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef);
