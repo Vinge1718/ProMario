@@ -17,12 +17,12 @@ public abstract class Enemy extends Sprite {
         this.world = screen.getWorld();
         this.screen = screen;
         setPosition(x,y);
-        definedEnemy();
-        velocity =new Vector2(1,0);
+        defineEnemy();
+        velocity = new Vector2(1,0);
         b2body.setActive(false);
     }
 
-    protected abstract void definedEnemy();
+    protected abstract void defineEnemy();
     public abstract void update(float dt);
     public abstract void hitOnHead();
 
@@ -30,6 +30,6 @@ public abstract class Enemy extends Sprite {
         if(x)
             velocity.x = -velocity.x;
         if(y)
-            velocity.y = velocity.y;
+            velocity.y = -velocity.y;
     }
 }
