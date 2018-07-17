@@ -6,44 +6,29 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.kavata9.promario.ProMario;
 
-import java.util.PriorityQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Level;
 
 import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Scenes.Hud;
 import io.github.vinge1718.Sprites.Enemy;
-import io.github.vinge1718.Sprites.Goomba;
 import io.github.vinge1718.Sprites.Item;
 import io.github.vinge1718.Sprites.ItemDef;
 import io.github.vinge1718.Sprites.Mario;
 import io.github.vinge1718.Sprites.Mushroom;
 import io.github.vinge1718.Tools.B2WorldCreator;
 import io.github.vinge1718.Tools.WorldContactListener;
-
-import static sun.audio.AudioPlayer.player;
 
 public class PlayScreen implements Screen {
     private  MyProgrammingMario game;
@@ -67,7 +52,7 @@ public class PlayScreen implements Screen {
     private Array<Item> items;
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
-    public PlayScreen (MyProgrammingMario game){
+    public PlayScreen (ProMario game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gamecam = new OrthographicCamera();
