@@ -20,7 +20,6 @@ import io.github.vinge1718.Screens.PlayScreen;
 public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
-    protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;
