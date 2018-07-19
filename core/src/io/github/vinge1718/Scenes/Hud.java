@@ -19,6 +19,7 @@ public class Hud implements Disposable{
     private Viewport viewport;
 
     private Integer worldTimer;
+    private boolean timeUp;
     private float timeCount;
     private static Integer score;
 
@@ -46,7 +47,7 @@ public class Hud implements Disposable{
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("MARIO", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        marioLabel = new Label("ProMario", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(marioLabel).expandX().padTop(5);
         table.add(worldLabel).expandX().padTop(5);
@@ -81,4 +82,6 @@ public class Hud implements Disposable{
     public void dispose() {
         stage.dispose();
     }
+
+    public boolean isTimeUp() { return timeUp; }
 }
