@@ -15,10 +15,14 @@ import io.github.vinge1718.MyProgrammingMario;
 import io.github.vinge1718.Screens.PlayScreen;
 import io.github.vinge1718.Sprites.Brick;
 import io.github.vinge1718.Sprites.Coin;
+import io.github.vinge1718.Sprites.Enemy;
 import io.github.vinge1718.Sprites.Goomba;
+import io.github.vinge1718.Sprites.Turtle;
 
 public class B2WorldCreator {
     private Array<Goomba> goombas;
+    private Array<Turtle> turtles;
+
 
     public B2WorldCreator(PlayScreen screen){
         World world = screen.getWorld();
@@ -37,7 +41,7 @@ public class B2WorldCreator {
 
             shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
             fdef.shape = shape;
-            fdef.filter.categoryBits = MyProgrammingMario.OBJECT_BIT;
+//            fdef.filter.categoryBits = MyProgrammingMario.OBJECT_BIT;
             body.createFixture(fdef);
         }
 
@@ -50,6 +54,7 @@ public class B2WorldCreator {
 
             shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
             fdef.shape = shape;
+            fdef.filter.categoryBits = MyProgrammingMario.OBJECT_BIT;
             body.createFixture(fdef);
         }
 
@@ -64,15 +69,24 @@ public class B2WorldCreator {
         }
 
         goombas = new Array<Goomba>();
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject
-                .class)){
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            goombas.add(new Goomba(screen, rect.getX() / MyProgrammingMario.PPM, rect.getY() /
-                    MyProgrammingMario.PPM));
+            goombas.add(new Goomba(screen, rect.getX() / MyProgrammingMario.PPM, rect.getY() / MyProgrammingMario.PPM));
+        }
+        turtles = new Array<Turtle>();
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            turtles.add(new Turtle(screen, rect.getX() / MyProgrammingMario.PPM, rect.getY() / MyProgrammingMario.PPM));
         }
     }
 
     public Array<Goomba> getGoombas() {
         return goombas;
+    }
+    public Array<Enemy> getEnemies(){
+        Array<Enemy> enemies = new Array<Enemy>();
+        enemies.addAll(goombas);
+        enemies.addAll(turtles);
+        return enemies;
     }
 }
