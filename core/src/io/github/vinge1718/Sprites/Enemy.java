@@ -18,13 +18,15 @@ public abstract class Enemy extends Sprite {
         this.screen = screen;
         setPosition(x,y);
         defineEnemy();
-        velocity = new Vector2(1,0);
+//        velocity = new Vector2(1,0);
+        velocity = new Vector2(-1, -2);
         b2body.setActive(false);
     }
 
     protected abstract void defineEnemy();
     public abstract void update(float dt);
-    public abstract void hitOnHead();
+    public abstract void hitOnHead(Mario mario);
+    public abstract void onEnemyHit(Enemy enemy);
 
     public void reverseVelocity(boolean x, boolean y){
         if(x)
