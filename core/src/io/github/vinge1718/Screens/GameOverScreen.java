@@ -1,4 +1,4 @@
-package io.github.vinge1718.Scenes;
+package io.github.vinge1718.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
