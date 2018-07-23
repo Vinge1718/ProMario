@@ -19,16 +19,7 @@ public class Brick extends InteractiveTileObject{
         setCategoryFilter(MyProgrammingMario.BRICK_BIT);
     }
 
-    @Override
-    public void onHeadHit(Mario mario) {
-        if(mario.isBig()) {
-            setCategoryFilter(MyProgrammingMario.DESTROYED_BIT);
-            getCell().setTile(null);
-            Hud.addScore(200);
-            MyProgrammingMario.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
-        }
-        MyProgrammingMario.manager.get("audio/sounds/bump.wav", Sound.class).play();
-    }
+
 }
 =======
 package io.github.vinge1718.Sprites;
