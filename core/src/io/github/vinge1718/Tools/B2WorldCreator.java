@@ -131,7 +131,7 @@ public class B2WorldCreator {
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth()/2)/ MyProgrammingMario.PPM, (rect.getY()+rect.getHeight()/2)/MyProgrammingMario.PPM);
 
-
+            body = world.createBody(bdef);
 
             shape.setAsBox(rect.getWidth()/2/MyProgrammingMario.PPM, rect.getHeight()/2/MyProgrammingMario.PPM);
             fdef.shape = shape;
