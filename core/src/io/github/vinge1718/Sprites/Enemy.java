@@ -68,4 +68,10 @@ public abstract class Enemy extends Sprite {
     public abstract void onEnemyHit(Enemy enemy);
 
     public void reverseVelocity(boolean x, boolean y){
-        if
+        if(x)
+            velocity.x = -velocity.x;
+        if(y)
+            velocity.y = -velocity.y;
+    }
+}
+>>>>>>> 9e27586d1baa98fc5feea72bcb6d08330f2204cc
