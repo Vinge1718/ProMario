@@ -6,36 +6,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.util.PriorityQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Level;
-
 import io.github.vinge1718.MyProgrammingMario;
+import io.github.vinge1718.Scenes.Controller;
 import io.github.vinge1718.Scenes.Hud;
 import io.github.vinge1718.Sprites.Enemy;
-import io.github.vinge1718.Sprites.Goomba;
 import io.github.vinge1718.Sprites.Item;
 import io.github.vinge1718.Sprites.ItemDef;
 import io.github.vinge1718.Sprites.Mario;
@@ -43,10 +28,10 @@ import io.github.vinge1718.Sprites.Mushroom;
 import io.github.vinge1718.Tools.B2WorldCreator;
 import io.github.vinge1718.Tools.WorldContactListener;
 
-import static sun.audio.AudioPlayer.player;
 
 public class PlayScreen implements Screen {
-    private  MyProgrammingMario game;
+
+    private MyProgrammingMario game;
     private OrthographicCamera gamecam;
     private Viewport gamePort;
     public Hud hud;
@@ -66,6 +51,8 @@ public class PlayScreen implements Screen {
 
     private Array<Item> items;
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
+    public static boolean alreadyDestroyed = false;
+    Controller controller;
 
     public PlayScreen (MyProgrammingMario game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
@@ -82,16 +69,21 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
-        player = new Mario(this);
 
         creator = new B2WorldCreator(this);
+
+        player = new Mario(this);
+
+
         world.setContactListener(new WorldContactListener());
 //        music = MyProgrammingMario.manager.get("audio/music/mario_music.ogg", Music.class);
 //        music.setLooping(true);
+//        music.setVolume(0.3f);
 //        music.play();
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+        controller = new Controller();
 
     }
 
@@ -118,12 +110,24 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        if(player.currentState != Mario.State.DEAD) {
+//            if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+//                player.jump();
+//            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
+//                player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+//            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
+//                player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+//            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+//                player.fire;
+
+            if(controller.isUpPressed())
+                player.jump();
+            if(controller.isLeftPressed() && player.b2body.getLinearVelocity().x >= -2)
+                player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+            if(controller.isRightPressed() && player.b2body.getLinearVelocity().x <= 2)
+                player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+
+        }
     }
 
 // handles the displaying of the game graphics on change/response to game change
@@ -134,8 +138,10 @@ public class PlayScreen implements Screen {
         handleSpawningItems();
 
         world.step(1 / 60f, 6, 2);
+
         player.update(dt);
-        for(Enemy enemy : creator.getGoombas()) {
+
+        for(Enemy enemy : creator.getEnemies()) {
             enemy.update(dt);
             if(enemy.getX() < player.getX() + 224 / MyProgrammingMario.PPM) {
                 enemy.b2body.setActive(true);
@@ -146,8 +152,13 @@ public class PlayScreen implements Screen {
             item.update(dt);
 
         hud.update(dt);
-        gamecam.position.x = player.b2body.getPosition().x;
+
+        if(player.currentState != Mario.State.DEAD){
+            gamecam.position.x = player.b2body.getPosition().x;
+        }
+
         gamecam.update();
+
         renderer.setView(gamecam);
 
     }
@@ -170,7 +181,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        for(Enemy enemy: creator.getGoombas())
+        for(Enemy enemy: creator.getEnemies())
             enemy.draw(game.batch);
 
         for (Item item: items)
@@ -180,13 +191,29 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
+        controller.draw();
     }
 
+    public boolean gameOver(){
+        if(player.currentState == Mario.State.DEAD && player.getStateTimer() > 3){
+            return true;
+        }
+        return false;
+    }
+
+    public Hud getHud(){
+        return hud;
+    }
 
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
-
+        controller.resize(width, height);
     }
 
     public TiledMap getMap(){

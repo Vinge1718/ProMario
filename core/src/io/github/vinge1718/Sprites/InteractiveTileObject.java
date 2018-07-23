@@ -20,7 +20,6 @@ import io.github.vinge1718.Screens.PlayScreen;
 public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
-    protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;
@@ -48,7 +47,7 @@ public abstract class InteractiveTileObject {
         fixture = body.createFixture(fdef);
     }
 
-    public abstract void onHeadHit();
+    public abstract void onHeadHit(Mario mario);
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
@@ -57,7 +56,6 @@ public abstract class InteractiveTileObject {
 
     public TiledMapTileLayer.Cell getCell(){
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
-        return layer.getCell((int) (body.getPosition().x * MyProgrammingMario.PPM/16), (int)(body
-                .getPosition().y* MyProgrammingMario.PPM/16));
+        return layer.getCell((int) (body.getPosition().x * MyProgrammingMario.PPM/16), (int)(body.getPosition().y * MyProgrammingMario.PPM/16));
     }
 }

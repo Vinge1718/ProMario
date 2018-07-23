@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "28.0.1"
-    compileSdkVersion 28
+    compileSdkVersion 27
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -18,8 +18,8 @@ android {
     }
     defaultConfig {
         applicationId "io.github.vinge1718"
-        minSdkVersion 9
-        targetSdkVersion 28
+        minSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }

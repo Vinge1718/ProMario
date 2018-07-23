@@ -1,5 +1,6 @@
 package io.github.vinge1718.Sprites;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,6 +20,7 @@ public class Goomba extends Enemy {
     private Array<TextureRegion> frames;
     private boolean setToDestroy;
     private boolean destroyed;
+    float angle;
 
     public Goomba(PlayScreen screen, float x, float y) {
         super(screen, x, y);
@@ -30,6 +32,7 @@ public class Goomba extends Enemy {
         setBounds(getX(), getY(), 16/MyProgrammingMario.PPM, 16/MyProgrammingMario.PPM);
         setToDestroy = false;
         destroyed = false;
+        angle = 0;
     }
 
     public void update(float dt){
@@ -41,11 +44,9 @@ public class Goomba extends Enemy {
             stateTime = 0;
         } else if(!destroyed){
             b2body.setLinearVelocity(velocity);
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y -
-                    getHeight() / 2);
+            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
             setRegion(walkAnimation.getKeyFrame(stateTime, true));
         }
-
     }
 
     @Override
@@ -71,8 +72,8 @@ public class Goomba extends Enemy {
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertice = new Vector2[4];
-        vertice[0] = new Vector2(-3, 8).scl(1/MyProgrammingMario.PPM);
-        vertice[1] = new Vector2(3, 8).scl(1/MyProgrammingMario.PPM);
+        vertice[0] = new Vector2(-4, 8).scl(1/MyProgrammingMario.PPM);
+        vertice[1] = new Vector2(4, 8).scl(1/MyProgrammingMario.PPM);
         vertice[2] = new Vector2(-3, 3).scl(1/MyProgrammingMario.PPM);
         vertice[3] = new Vector2(3, 3).scl(1/MyProgrammingMario.PPM);
         head.set(vertice);
@@ -89,8 +90,16 @@ public class Goomba extends Enemy {
             super.draw(batch);
     }
 
+    public void onEnemyHit(Enemy enemy){
+        if(enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL)
+            setToDestroy = true;
+        else
+            reverseVelocity(true, false);
+    }
+
     @Override
-    public void hitOnHead() {
+    public void hitOnHead(Mario mario) {
         setToDestroy = true;
+        MyProgrammingMario.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
 }

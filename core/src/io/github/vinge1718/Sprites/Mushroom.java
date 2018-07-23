@@ -11,7 +11,7 @@ import io.github.vinge1718.Screens.PlayScreen;
 public class Mushroom extends Item{
     public Mushroom(PlayScreen screen, float x, float y) {
         super(screen, x, y);
-        setRegion(screen.getAtlas().findRegion("mushroom"), 0, 0, 16, 16);
+        setRegion(screen.getAtlas().findRegion("mushroom"), 80, 0, 16, 16);
         velocity = new Vector2(0.7f, 0);
     }
 
@@ -27,10 +27,10 @@ public class Mushroom extends Item{
         shape.setRadius(6/ MyProgrammingMario.PPM);
         fdef.filter.categoryBits = MyProgrammingMario.ITEM_BIT;
         fdef.filter.maskBits = MyProgrammingMario.MARIO_BIT |
+                MyProgrammingMario.OBJECT_BIT |
                 MyProgrammingMario.GROUND_BIT |
                 MyProgrammingMario.COIN_BIT |
-                MyProgrammingMario.BRICK_BIT |
-                MyProgrammingMario.OBJECT_BIT ;
+                MyProgrammingMario.BRICK_BIT ;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
@@ -39,6 +39,8 @@ public class Mushroom extends Item{
     @Override
     public void use(Mario mario ) {
         destroy();
+        mario.grow();
+        body.getFixtureList().first().setSensor(true);
     }
 
     @Override
