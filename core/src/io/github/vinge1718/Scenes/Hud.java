@@ -31,34 +31,6 @@ public class Hud implements Disposable{
     private Label worldLabel;
     private Label marioLabel;
 
-    public Hud(SpriteBatch sb){
-        worldTimer = 300;
-        timeCount = 0;
-        score = 0 ;
-
-        viewport = new FitViewport(MyProgrammingMario.V_WIDTH, MyProgrammingMario.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
-
-        Table table = new Table();
-        table.top();
-        table.setFillParent(true);
-
-        countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel =new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("ProMario", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-        table.add(marioLabel).expandX().padTop(5);
-        table.add(worldLabel).expandX().padTop(5);
-        table.add(timeLabel).expandX().padTop(5);
-        table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
-        table.add(countdownLabel).expandX();
-
-        stage.addActor(table);
-    }
 
     public void update(float dt){
         timeCount += dt;
