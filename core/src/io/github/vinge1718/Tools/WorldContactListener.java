@@ -159,18 +159,7 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Item)fixB.getUserData()).reverseVelocity(true, false);
                 break;
-            case MyProgrammingMario.ITEM_BIT | MyProgrammingMario.MARIO_BIT:
-                if(fixA.getFilterData().categoryBits == MyProgrammingMario.ITEM_BIT)
-                    ((Item)fixA.getUserData()).use((Mario) fixB.getUserData());
-                else
-                    ((Item)fixB.getUserData()).use((Mario) fixA.getUserData());
-                break;
-//            case MyProgrammingMario.FIREBALL_BIT | MyProgrammingMario.OBJECT_BIT:
-//                if(fixA.getFilterData().categoryBits == MyProgrammingMario.FIREBALL_BIT)
-//                    ((FireBall)fixA.getUserData()).setToDestroy();
-//                else
-//                    ((FireBall)fixB.getUserData()).setToDestroy();
-//                break;
+
         }
 
     }
