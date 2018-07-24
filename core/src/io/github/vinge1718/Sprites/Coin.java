@@ -79,21 +79,6 @@ public class Coin extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Mario mario) {
-        Gdx.app.log("Coin", "Collision");
-        if(getCell().getTile().getId() == BLANK_COIN)
-            MyProgrammingMario.manager.get("audio/sounds/bump.wav", Sound.class).play();
-        else{
-            if(object.getProperties().containsKey("mushroom")) {
-                screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / MyProgrammingMario.PPM), Mushroom.class));
-                MyProgrammingMario.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
-            }
-            else
-            MyProgrammingMario.manager.get("audio/sounds/coin.wav", Sound.class).play();
-        }
 
-        getCell().setTile(tileSet.getTile(BLANK_COIN));
-        Hud.addScore(100);
-    }
 }
 >>>>>>> 9e27586d1baa98fc5feea72bcb6d08330f2204cc
