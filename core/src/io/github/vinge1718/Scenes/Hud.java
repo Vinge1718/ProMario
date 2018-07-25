@@ -41,6 +41,14 @@ public class Hud implements Disposable{
 
 
 
+        table.add(marioLabel).expandX().padTop(5);
+        table.add(worldLabel).expandX().padTop(5);
+        table.add(timeLabel).expandX().padTop(5);
+        table.row();
+        table.add(scoreLabel).expandX();
+        table.add(levelLabel).expandX();
+        table.add(countdownLabel).expandX();
+
         stage.addActor(table);
     }
 
