@@ -41,20 +41,7 @@ public class Hud implements Disposable{
 
 
 
-        stage.addActor(table);
-    }
 
-    public void update(float dt){
-        timeCount += dt;
-        if(timeCount >= 1){
-            if (worldTimer > 0) {
-                worldTimer--;
-            } else {
-//                timeUp = true;
-            }
-            countdownLabel.setText(String.format("%03d", worldTimer));
-            timeCount = 0;
-        }
     }
 
     public static void addScore(int value){
