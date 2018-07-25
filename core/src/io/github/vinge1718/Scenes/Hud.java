@@ -39,6 +39,9 @@ public class Hud implements Disposable{
         viewport = new FitViewport(MyProgrammingMario.V_WIDTH, MyProgrammingMario.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
+        Table table = new Table();
+        table.top();
+        table.setFillParent(true);
 
         countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel =new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
