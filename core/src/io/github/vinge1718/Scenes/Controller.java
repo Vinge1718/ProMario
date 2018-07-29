@@ -1,6 +1,7 @@
 package io.github.vinge1718.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -39,13 +40,55 @@ public class Controller {
         cam = new OrthographicCamera();
         viewport = new FitViewport(MyProgrammingMario.V_WIDTH, MyProgrammingMario.V_HEIGHT, cam);
         stage = new Stage(viewport,MyProgrammingMario.batch);
+
+        stage.addListener(new InputListener(){
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch(keycode){
+                    case Input.Keys.UP:
+                        upPressed = true;
+                        break;
+                    case Input.Keys.DOWN:
+                        downPressed = true;
+                        break;
+                    case Input.Keys.LEFT:
+                        leftPressed = true;
+                        break;
+                    case Input.Keys.RIGHT:
+                        rightPressed = true;
+                        break;
+                }
+                return true;
+            }
+
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                switch(keycode){
+                    case Input.Keys.UP:
+                        upPressed = false;
+                        break;
+                    case Input.Keys.DOWN:
+                        downPressed = false;
+                        break;
+                    case Input.Keys.LEFT:
+                        leftPressed = false;
+                        break;
+                    case Input.Keys.RIGHT:
+                        rightPressed = false;
+                        break;
+                }
+                return true;
+            }
+        });
+
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.left().bottom();
 
         Image upImg = new Image(new Texture("if_up.png"));
-        upImg.setSize(50, 50);
+        upImg.setSize(30, 30);
         upImg.addListener(new InputListener(){
 
             @Override
@@ -62,27 +105,27 @@ public class Controller {
             }
         });
 
-        Image downImg = new Image(new Texture("if_down.png"));
-        downImg.setSize(50,50);
-        downImg.addListener(new InputListener(){
-
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                super.touchDown(event, x, y, pointer, button);
-                downPressed = true;
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                super.touchUp(event, x, y, pointer, button);
-                downPressed = false;
-            }
-        });
+//        Image downImg = new Image(new Texture("if_down.png"));
+//        downImg.setSize(30,30);
+//        downImg.addListener(new InputListener(){
+//
+//
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+////                super.touchDown(event, x, y, pointer, button);
+//                downPressed = true;
+//                return true;
+//            }
+//
+//            @Override
+//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+////                super.touchUp(event, x, y, pointer, button);
+//                downPressed = false;
+//            }
+//        });
 
         Image rightImg = new Image(new Texture("if_right.png"));
-        rightImg.setSize(50, 50);
+        rightImg.setSize(30, 30);
         rightImg.addListener(new InputListener(){
 
             @Override
@@ -100,7 +143,7 @@ public class Controller {
         });
 
         Image leftImg = new Image( new Texture("if_left.png"));
-        leftImg.setSize(50, 50);
+        leftImg.setSize(30, 30);
         leftImg.addListener(new InputListener(){
 
             @Override
@@ -118,15 +161,15 @@ public class Controller {
         });
 
         table.add();
-        table.add(upImg).size(upImg.getWidth(), upImg.getHeight());
+        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).pad(0,0,-10,0);
         table.add();
         table.row().pad(5, 5,5,5);
-        table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
+        table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight()).pad(0,0,50,320);
         table.add();
-        table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
+        table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight()).pad(0,-620,50,0);
         table.row().padBottom(5);
         table.add();
-        table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
+//        table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
         table.add();
 
         stage.addActor(table);
