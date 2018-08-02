@@ -38,7 +38,10 @@ public class Coin extends InteractiveTileObject {
                 screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / MyProgrammingMario.PPM), Mushroom.class));
                 MyProgrammingMario.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
             }
-            else
+            else if(object.getProperties().containsKey("subject")) {
+                screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 32 / MyProgrammingMario.PPM), Subject.class));
+                MyProgrammingMario.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
+            }
             MyProgrammingMario.manager.get("audio/sounds/coin.wav", Sound.class).play();
         }
 
