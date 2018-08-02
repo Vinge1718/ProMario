@@ -11,7 +11,7 @@ import io.github.vinge1718.Screens.PlayScreen;
 public class Mushroom extends Item{
     public Mushroom(PlayScreen screen, float x, float y) {
         super(screen, x, y);
-        setRegion(screen.getAtlas().findRegion("mushroom"), 421, 0, 16, 16);
+        setRegion(screen.getAtlas().findRegion("mushroom"), 0, 0, 16, 16);
         velocity = new Vector2(0.7f, 0);
     }
 
