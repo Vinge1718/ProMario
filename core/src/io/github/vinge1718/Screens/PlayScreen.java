@@ -26,6 +26,7 @@ import io.github.vinge1718.Sprites.Item;
 import io.github.vinge1718.Sprites.ItemDef;
 import io.github.vinge1718.Sprites.Mario;
 import io.github.vinge1718.Sprites.Mushroom;
+import io.github.vinge1718.Sprites.Subject;
 import io.github.vinge1718.Tools.B2WorldCreator;
 import io.github.vinge1718.Tools.WorldContactListener;
 
@@ -97,6 +98,8 @@ public class PlayScreen implements Screen {
             ItemDef idef = itemsToSpawn.poll();
             if(idef.type == Mushroom.class){
                 items.add(new Mushroom(this, idef.position.x, idef.position.y));
+            } else if (idef.type == Subject.class){
+                items.add(new Subject(this, idef.position.x, idef.position.y));
             }
         }
     }
