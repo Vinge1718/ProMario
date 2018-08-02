@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
     Controller controller;
 
     public PlayScreen (MyProgrammingMario game){
-        atlas = new TextureAtlas("Mario_and_Enemies.pack");
+        atlas = new TextureAtlas("Mario_and_enemies.atlas");
         this.game = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(MyProgrammingMario.V_WIDTH/ MyProgrammingMario.PPM, MyProgrammingMario.V_HEIGHT/MyProgrammingMario.PPM, gamecam);
