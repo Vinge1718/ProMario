@@ -5,6 +5,7 @@ import io.github.vinge1718.Screens.PlayScreen;
 public class Subject extends Item {
     public Subject(PlayScreen screen, float x, float y) {
         super(screen, x, y);
+
     }
 
     @Override
